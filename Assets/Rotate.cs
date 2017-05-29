@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotate : MonoBehaviour {
-    Quaternion StartRotation;
-    Quaternion EndRotation;
-    public float time=0;
-    public float rotationSpeed=1;
+    Quaternion StartRotation,EndRotation;
+    float time=0;
+    [SerializeField]
+    float rotationSpeed;
+    bool isRotating = false;
 	// Use this for initialization
 	void Start () {
         QualitySettings.antiAliasing = 8;
@@ -16,10 +17,17 @@ public class Rotate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        KeyboardInputHandle();
+        if (isRotating)
+        {
         transform.rotation = Quaternion.Slerp(StartRotation, EndRotation, time*rotationSpeed);
-        
         time += Time.deltaTime;
+        isRotating = (time * rotationSpeed - Time.deltaTime * rotationSpeed )<= 1;
+        }
+        else
+        {
+            KeyboardInputHandle();
+        }
+
 	}
     public void RotateLeft()
     {
@@ -27,6 +35,7 @@ public class Rotate : MonoBehaviour {
         EndRotation = new Quaternion(0, 0, 0, 1);
         EndRotation.SetEulerAngles(0, 0, transform.rotation.ToEulerAngles().z + (Mathf.PI / 3));
         time = 0;
+        isRotating = true;
     }
     public void RotateRight()
     {
@@ -34,6 +43,7 @@ public class Rotate : MonoBehaviour {
         EndRotation = new Quaternion(0, 0, 0, 1);
         EndRotation.SetEulerAngles(0, 0, transform.rotation.ToEulerAngles().z - (Mathf.PI / 3));
         time = 0;
+        isRotating = true;
     }
     void TapInputHandle()
     {
@@ -57,8 +67,6 @@ public class Rotate : MonoBehaviour {
     }
     void KeyboardInputHandle()
     {
-        if (time*rotationSpeed>=1) //Checks if last rotation finished
-        {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             RotateLeft();
@@ -67,7 +75,5 @@ public class Rotate : MonoBehaviour {
         {
             RotateRight();
         }
-        }
-
     }
 }

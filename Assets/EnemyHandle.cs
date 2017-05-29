@@ -4,17 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemyHandle : MonoBehaviour {
-    public Material[] Colors;
-    int Score;
-    public Text ScoreTxt;
-    public GameObject Panel;
-    public GameObject Enemy;
-    public Vector3 StartingPos;
+    [SerializeField]
+     Material[] Colors;
+    [SerializeField]
+    Text ScoreTxt,LevelTxt;
+    [SerializeField]
+    GameObject Panel,Enemy;
+    Vector3 StartingPos;
+    int Score,Level;
 	// Use this for initialization
 	void Start () {
         StartingPos = transform.position;
-        ScoreTxt.text = Score.ToString();
-        
+        ScoreTxt.text = "Score: " + Score.ToString();
+        LevelTxt.text = "Level: " + Level.ToString();
         GetComponent<Renderer>().material = Colors[(int)ColorsEnum.Gray];
     }
 	
@@ -33,7 +35,14 @@ public class EnemyHandle : MonoBehaviour {
         int num = Random.Range(0, (int)ColorsEnum.EnumLenght);
         GetComponent<Renderer>().material = Colors[num];
         Score++;
-        ScoreTxt.text = Score.ToString();
+            if (Score%10==0)
+            {
+                Time.timeScale = Time.timeScale + 0.1f;
+                Level++;
+                LevelTxt.text = "Level: " + Level.ToString();
+            }
+        ScoreTxt.text ="Score: "+ Score.ToString();
+        
         }
         else
         {
