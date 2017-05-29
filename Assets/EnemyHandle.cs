@@ -15,18 +15,22 @@ public class EnemyHandle : MonoBehaviour {
         StartingPos = transform.position;
         ScoreTxt.text = Score.ToString();
         
-        GetComponent<Renderer>().material = Colors[1];
+        GetComponent<Renderer>().material = Colors[(int)ColorsEnum.Gray];
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+    enum ColorsEnum
+    {
+        Green,Gray,Blue,Yellow,Red,Purple,EnumLenght
+    }
     void OnTriggerEnter(Collider col)
     {
         if (GetComponent<Renderer>().material.color == col.gameObject.GetComponent<Renderer>().material.color)
         {
-        int num = Random.Range(0, 6);
+        int num = Random.Range(0, (int)ColorsEnum.EnumLenght);
         GetComponent<Renderer>().material = Colors[num];
         Score++;
         ScoreTxt.text = Score.ToString();
