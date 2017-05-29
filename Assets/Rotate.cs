@@ -9,9 +9,6 @@ public class Rotate : MonoBehaviour {
     public float rotationSpeed=1;
 	// Use this for initialization
 	void Start () {
-        /* StartRotation = transform.localRotation;
-         EndRotation = new Quaternion(0, 0, 0,1);
-         EndRotation.SetEulerAngles(0, 0, transform.rotation.ToEulerAngles().z+(Mathf.PI/2));*/
         QualitySettings.antiAliasing = 8;
         StartRotation = transform.localRotation;
         EndRotation = StartRotation;
@@ -19,8 +16,9 @@ public class Rotate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        TapInputHandle();
+        KeyboardInputHandle();
         transform.rotation = Quaternion.Slerp(StartRotation, EndRotation, time*rotationSpeed);
+        
         time += Time.deltaTime;
 	}
     public void RotateLeft()
@@ -42,13 +40,13 @@ public class Rotate : MonoBehaviour {
         if (Input.touchCount > 0)
         {
             Touch tap = Input.GetTouch(0);
-            if (tap.phase == TouchPhase.Began)
+            if (tap.phase == TouchPhase.Began ) 
             {
                 if (tap.position.x < Screen.width / 2)
                 {
                     RotateLeft();
                 }
-                else if (tap.position.x >= Screen.width/2 )
+                else if (tap.position.x >= Screen.width/2)
                 {
                     RotateRight();
                 }
@@ -56,5 +54,20 @@ public class Rotate : MonoBehaviour {
             }
 
         }
+    }
+    void KeyboardInputHandle()
+    {
+        if (time*rotationSpeed>=1) //Checks if last rotation finished
+        {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            RotateLeft();
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            RotateRight();
+        }
+        }
+
     }
 }
