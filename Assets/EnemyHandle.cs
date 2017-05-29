@@ -29,10 +29,6 @@ public class EnemyHandle : MonoBehaviour {
         int num = Random.Range(0, 6);
         GetComponent<Renderer>().material = Colors[num];
         Score++;
-            if (Score == 10)
-            {
-                Instantiate(this.gameObject, StartingPos, Quaternion.identity);
-            }
         ScoreTxt.text = Score.ToString();
         }
         else
