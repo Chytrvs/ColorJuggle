@@ -25,7 +25,7 @@ public class Rotate : MonoBehaviour {
         }
         else
         {
-            KeyboardInputHandle();
+            TapInputHandle();
         }
 
 	}

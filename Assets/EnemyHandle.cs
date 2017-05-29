@@ -7,7 +7,7 @@ public class EnemyHandle : MonoBehaviour {
     [SerializeField]
      Material[] Colors;
     [SerializeField]
-    Text ScoreTxt,LevelTxt;
+    Text ScoreTxt,LevelTxt,EndScoreTxt,BestScoreTxt;
     [SerializeField]
     GameObject Panel,Enemy;
     Vector3 StartingPos;
@@ -15,7 +15,7 @@ public class EnemyHandle : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         StartingPos = transform.position;
-        ScoreTxt.text = "Score: " + Score.ToString();
+        ScoreTxt.text =Score.ToString();
         LevelTxt.text = "Level: " + Level.ToString();
         GetComponent<Renderer>().material = Colors[(int)ColorsEnum.Gray];
     }
@@ -27,6 +27,7 @@ public class EnemyHandle : MonoBehaviour {
     enum ColorsEnum
     {
         Green,Gray,Blue,Yellow,Red,Purple,EnumLenght
+            
     }
     void OnTriggerEnter(Collider col)
     {
@@ -41,15 +42,22 @@ public class EnemyHandle : MonoBehaviour {
                 Level++;
                 LevelTxt.text = "Level: " + Level.ToString();
             }
-        ScoreTxt.text ="Score: "+ Score.ToString();
+        ScoreTxt.text = Score.ToString();
         
         }
         else
         {
+            EndScoreTxt.text = "Score: "+Score.ToString();
+            if (Score > PlayerPrefs.GetInt("HighScore"))
+            {
+                PlayerPrefs.SetInt("HighScore", Score);
+            }
+            BestScoreTxt.text = "High Score: " + PlayerPrefs.GetInt("HighScore").ToString();
             Score = 0;
             ScoreTxt.text = Score.ToString();
             Panel.SetActive(true);
             Time.timeScale = 0;
+            
         }
 
     }
