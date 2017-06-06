@@ -25,7 +25,11 @@ public class Rotate : MonoBehaviour {
         }
         else
         {
+#if UNITY_ANDROID
             TapInputHandle();
+#else
+            KeyboardInputHandle();
+#endif
         }
 
 	}
